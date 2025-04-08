@@ -1,0 +1,5 @@
+# Debug files
+debug/
+*.debug
+.settings/stm32cubeide.project.prefs
+vd55g1_stm32h533.launch
