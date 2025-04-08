@@ -1,5 +1,11 @@
-# Debug files
+# Exclude IDE settings
+.settings/
+.vscode/
+
+# Exclude Debug files
 debug/
 *.debug
 .settings/stm32cubeide.project.prefs
+
+# Exclude specific launch files
 vd55g1_stm32h533.launch
