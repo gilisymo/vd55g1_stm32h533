@@ -2,8 +2,7 @@
   ******************************************************************************
   * @file          : ls55g1_driver.h
   * @author        : Giovanni@Gilisymo
-  * @brief         : This file provides code for the configuration
-  *                  of the STMicroelectronics.X-CUBE-TOF1.3.4.2 instances.
+  * @brief         : This file provides code for communication with i3c.
   ******************************************************************************
   *
   * @attention
