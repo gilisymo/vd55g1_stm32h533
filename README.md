@@ -37,4 +37,4 @@ This demo example works with the NUCLEO-H533RE. The Light Saber CAM can be conne
 
 ## Display Information
 
-The display used is the SPI 2.4" TFT LCD SHIELD with an ILI9342 controller
+The display used is the SPI 2.4" TFT LCD SHIELD with an ILI9341 controller
