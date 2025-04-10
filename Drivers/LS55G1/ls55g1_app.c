@@ -29,8 +29,8 @@ static void print_camera_status(void);
 uint8_t ImageBuffer[400][400];
 uint8_t DisplayBuffer[800];
 
-#define CameraHeight	320
-#define CameraWidth		240
+#define CameraHeight	240
+#define CameraWidth		320
 
 extern struct Config_t Config;
 volatile uint8_t LineDataReady = 0;
@@ -58,6 +58,7 @@ void ls55g1_setup(void)
 	ILI9341_Draw_Text("V1.0", 20, 80, WHITE, 2, BLUE);
 	HAL_Delay(1000);
 	ILI9341_Fill_Screen(BLUE);
+	ILI9341_Set_Rotation(SCREEN_VERTICAL_1);
 
 }
 
