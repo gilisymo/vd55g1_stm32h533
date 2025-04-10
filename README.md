@@ -2,11 +2,11 @@
 
 The demo has been presented at the Embedded World 2025
 
-<img src="images/Demo_Embedded_World_2025.png" alt="LS-CAM-I3C" width="400">
+<img src="https://raw.githubusercontent.com/gilisymo/vd55g1_stm32h533/main/images/Demo_Embedded_World_2025.png" alt="LS-CAM-I3C" width="400">
 
 ## LS-CAM-I3C Pinout Connection
 
-<img src="images/LS-CAM-I3C1.png" alt="LS-CAM-I3C" width="250">
+<img src="https://raw.githubusercontent.com/gilisymo/vd55g1_stm32h533/main/images/LS-CAM-I3C1.png" alt="LS-CAM-I3C" width="250">
 
 [Find the bord in Gilisymo site](https://www.gilisymo.com/sensors/67-ls-cam-i3c.html)
 
