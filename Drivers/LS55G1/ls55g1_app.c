@@ -32,7 +32,7 @@ uint8_t DisplayBuffer[800];
 #define CameraHeight	240
 #define CameraWidth		320
 
-extern struct Config_t Config;
+extern ls55g1_config_t config;
 volatile uint8_t LineDataReady = 0;
 volatile uint8_t SPIDMATxComplete = 0;
 volatile uint8_t DMALineDataReady = 0;
@@ -40,7 +40,7 @@ volatile uint8_t MultipleXferCplt = 0;
 
 static uint16_t linecounter = 0;
 static uint32_t FrameCount = 0;
-
+static ls55g1_driver_version_t driver_version = {0, 0, 0};
 
 extern I3C_HandleTypeDef hi3c1;
 
@@ -68,6 +68,14 @@ void ls55g1_main(void)
 	uint8_t DeviceID[4];
 
 	printf("GILISYMO LS-I3C-CAM VD55G1\n");
+
+	// Print the version of the demo application
+	printf("Demo Version: %d.%d.%d\n", DEMO_VERSION_MAJOR, DEMO_VERSION_MINOR, DEMO_VERSION_PATCH);
+
+	// Print the version of the driver
+	ls55g1_get_driver_version(&driver_version);
+	printf("LS55G1 Driver Version: %d.%d.%d\n", driver_version.major, driver_version.minor, driver_version.patch);
+
 	printf("Camera Booting...\n");
 	setvbuf(stdin, NULL, _IONBF, 0);
 
@@ -91,7 +99,7 @@ void ls55g1_main(void)
 		Error_Handler();
 	}
 
-	ls55g1_configure(CameraWidth, CameraHeight, Config.Binning2x2);
+	ls55g1_configure(CameraWidth, CameraHeight, config.Binning2x2);
 
 	// Set Parameters
 	ls55g1_set_digital_gain(1.1);

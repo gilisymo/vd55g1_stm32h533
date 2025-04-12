@@ -26,6 +26,10 @@
 #include "ls55g1_platform.h"
 #include "ls55g1_driver.h"
 
+#define DEMO_VERSION_MAJOR 1
+#define DEMO_VERSION_MINOR 0
+#define DEMO_VERSION_PATCH 0
+
 #ifndef UART_COMM_DEBUG
 #define Printf_Warn(msg, ...)  printf( "Warning: " msg"\n", ##__VA_ARGS__)
 #define Printf_Error(msg, ...)  printf( "Error: " msg"\n", ##__VA_ARGS__)

@@ -20,7 +20,7 @@
 #include <ls55g1_platform.h>
 #include "ls55g1_driver.h"
 
-struct Config_t Config =
+ls55g1_config_t config =
 {
 	.AutoGain =					1,
 	.Binning2x2 =				0,
@@ -31,6 +31,16 @@ struct Config_t Config =
 	.Sensor_Y_Start = 			174,
 	.DigitalGain = 				1.1,
 };
+
+void ls55g1_get_driver_version(ls55g1_driver_version_t *p_driver_version)
+{
+	if (p_driver_version == NULL) {
+		return;
+	}
+	p_driver_version->major = LS55G1_VERSION_MAJOR;
+	p_driver_version->minor = LS55G1_VERSION_MINOR;
+	p_driver_version->patch = LS55G1_VERSION_PATCH;
+}
 
 void ls55g1_init_cut20(void)
 {
@@ -245,7 +255,7 @@ int ls55g1_set_digital_gain(float DigitalGain)
 	DigitalGainLSB = (int)((_DigitalGain - DigitalGainMSB)*256);
 	write_multi_i3c_2bytes(EXPOSURE_MANUAL_DIGITAL_GAIN_CH0, DigitalGainLSB, DigitalGainMSB);
 
-	Config.DigitalGain = DigitalGainMSB + DigitalGainLSB/256.0;
+	config.DigitalGain = DigitalGainMSB + DigitalGainLSB/256.0;
 
 	return 0;
 }
@@ -259,7 +269,7 @@ int ls55g1_set_framelength(int FrameLength)
 	}
 	write_multi_i3c_4bytes( UI_STREAM_CTX0_FRAME_LENGTH_VALUE, _FrameLength & 0xFF, (_FrameLength & 0xFF00) / 0x100, 0x00, 0x00);
 
-	Config.FrameLength = _FrameLength;
+	config.FrameLength = _FrameLength;
 
 	return 0;
 
@@ -268,13 +278,13 @@ int ls55g1_set_framelength(int FrameLength)
 int ls55g1_set_exposure(int Exposure)
 {
 	int _Exposure = Exposure;
-	if (_Exposure > Config.FrameLength)
+	if (_Exposure > config.FrameLength)
 	{
-		_Exposure = Config.FrameLength;
+		_Exposure = config.FrameLength;
 	}
 	write_multi_i3c_2bytes( EXPOSURE_MANUAL_COARSE_EXPOSURE_LINES_A, _Exposure & 0xFF, (_Exposure & 0xFF00) / 0x100 );
 
-	Config.Exposure =  _Exposure;
+	config.Exposure =  _Exposure;
 
 	return 0;
 
@@ -291,7 +301,7 @@ int ls55g1_set_autogain(int AutoGain)
 		write_multi_i3c_1byte( UI_STREAM_CTX0_EXPOSURE_MODE_MODE, 0x02);
 	}
 
-	Config.AutoGain =  AutoGain;
+	config.AutoGain =  AutoGain;
 
 	return 0;
 
@@ -299,10 +309,10 @@ int ls55g1_set_autogain(int AutoGain)
 
 int ls55g1_set_analoggain(int AnalogGain)
 {
-	if (Config.AutoGain == 0)
+	if (config.AutoGain == 0)
 	{
 		write_multi_i3c_1byte( EXPOSURE_MANUAL_ANALOG_GAIN, AnalogGain);
-		Config.AnalogGain =  AnalogGain;
+		config.AnalogGain =  AnalogGain;
 	}
 
 	return 0;
@@ -341,23 +351,23 @@ int ls55g1_stop_streaming(int *pStatus)
 
 int ls55g1_set_binning2x2(int binning2x2)
 {
-	if ((Config.Sensor_X_Start % 2) == 1)
+	if ((config.Sensor_X_Start % 2) == 1)
 	{
-		Config.Sensor_X_Start--;
+		config.Sensor_X_Start--;
 	}
-	if ((Config.Sensor_Y_Start % 2) == 1)
+	if ((config.Sensor_Y_Start % 2) == 1)
 	{
-		Config.Sensor_Y_Start--;
+		config.Sensor_Y_Start--;
 	}
-	if (Config.Binning2x2 > 1)
+	if (config.Binning2x2 > 1)
 	{
-		Config.Binning2x2 = 1;
+		config.Binning2x2 = 1;
 	}
-	if (Config.Binning2x2  == 0)
+	if (config.Binning2x2  == 0)
 	{
-		write_multi_i3c_2bytes( UI_STREAM_CTX0_Y_START, Config.Sensor_Y_Start & 0xFF, (Config.Sensor_Y_Start & 0xFF00) / 0x100); 	
+		write_multi_i3c_2bytes( UI_STREAM_CTX0_Y_START, config.Sensor_Y_Start & 0xFF, (config.Sensor_Y_Start & 0xFF00) / 0x100); 	
 		write_multi_i3c_2bytes( UI_STREAM_CTX0_Y_HEIGHT, 0x90, 0x01); 																
-		write_multi_i3c_2bytes( UI_STREAM_CTX0_X_START, Config.Sensor_X_Start & 0xFF, (Config.Sensor_X_Start & 0xFF00) / 0x100); 	
+		write_multi_i3c_2bytes( UI_STREAM_CTX0_X_START, config.Sensor_X_Start & 0xFF, (config.Sensor_X_Start & 0xFF00) / 0x100); 	
 		write_multi_i3c_2bytes( UI_STREAM_CTX0_X_WIDTH, 0x90, 0x01); 																
 		write_multi_i3c_1byte( UI_STREAM_CTX0_READOUT_CTRL, 0);
 	}
@@ -402,8 +412,8 @@ void ls55g1_configure(uint16_t Width, uint16_t Height, uint8_t Binning_Subsample
 
 
 
-	FrameLenLSB = Config.FrameLength & 0xFF;
-	FrameLenMSB = (Config.FrameLength & 0xFF00) / 0x100;
+	FrameLenLSB = config.FrameLength & 0xFF;
+	FrameLenMSB = (config.FrameLength & 0xFF00) / 0x100;
 	write_multi_i3c_4bytes( UI_STREAM_CTX0_FRAME_LENGTH_VALUE, FrameLenLSB, FrameLenMSB, 0x00, 0x00);
 
 	if(Binning_Subsample == 0)
@@ -426,37 +436,37 @@ void ls55g1_configure(uint16_t Width, uint16_t Height, uint8_t Binning_Subsample
 	printf("x0488 = %x, %x\n", Registers[0] ,Registers[1]);
 	write_multi_i3c_2bytes( EXPOSURE_STEP_PROPORTION_A, 0xF0, 0x00);	
 
-	// *** Context 0 Config ***
-	if (Config.AutoGain == 1)
+	// *** Context 0 config ***
+	if (config.AutoGain == 1)
 	{
 		write_multi_i3c_1byte( UI_STREAM_CTX0_EXPOSURE_MODE_MODE, 0x0); 
 	}
 	else
 	{
 		write_multi_i3c_1byte( UI_STREAM_CTX0_EXPOSURE_MODE_MODE, 0x2);
-		write_multi_i3c_1byte( EXPOSURE_MANUAL_ANALOG_GAIN, Config.AnalogGain); 
-		if (Config.Exposure > Config.FrameLength)
+		write_multi_i3c_1byte( EXPOSURE_MANUAL_ANALOG_GAIN, config.AnalogGain); 
+		if (config.Exposure > config.FrameLength)
 		{
-			Config.Exposure = Config.FrameLength;
+			config.Exposure = config.FrameLength;
 		}
-		CoarseExpLSB = Config.Exposure & 0xFF;
-		CoarseExpMSB = (Config.Exposure & 0xFF00) / 0x100;
+		CoarseExpLSB = config.Exposure & 0xFF;
+		CoarseExpMSB = (config.Exposure & 0xFF00) / 0x100;
 
 		write_multi_i3c_2bytes( EXPOSURE_MANUAL_COARSE_EXPOSURE_LINES_A, CoarseExpLSB, CoarseExpMSB); 
 	}
 
-	if (Config.Sensor_X_Start> 400)
+	if (config.Sensor_X_Start> 400)
 	{
-		Config.Sensor_X_Start = 400;
+		config.Sensor_X_Start = 400;
 	}
-	if (Config.Sensor_Y_Start> 350)
+	if (config.Sensor_Y_Start> 350)
 	{
-		Config.Sensor_Y_Start = 350;
+		config.Sensor_Y_Start = 350;
 	}
 	if (Binning_Subsample == 0)
 	{
-		write_multi_i3c_2bytes( UI_STREAM_CTX0_Y_START, Config.Sensor_Y_Start & 0xFF, (Config.Sensor_Y_Start & 0xFF00) / 0x100); 
-		write_multi_i3c_2bytes( UI_STREAM_CTX0_X_START, Config.Sensor_X_Start & 0xFF, (Config.Sensor_X_Start & 0xFF00) / 0x100);
+		write_multi_i3c_2bytes( UI_STREAM_CTX0_Y_START, config.Sensor_Y_Start & 0xFF, (config.Sensor_Y_Start & 0xFF00) / 0x100); 
+		write_multi_i3c_2bytes( UI_STREAM_CTX0_X_START, config.Sensor_X_Start & 0xFF, (config.Sensor_X_Start & 0xFF00) / 0x100);
 
 	}
 	else

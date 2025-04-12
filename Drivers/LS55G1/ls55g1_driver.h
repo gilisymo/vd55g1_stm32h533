@@ -23,7 +23,12 @@
 extern "C" {
 #endif
 
-struct Config_t {
+
+#define LS55G1_VERSION_MAJOR 1
+#define LS55G1_VERSION_MINOR 0
+#define LS55G1_VERSION_PATCH 0
+
+typedef struct {
 	int AutoGain;
 	int Binning2x2;
 	int Exposure;
@@ -32,7 +37,13 @@ struct Config_t {
 	int Sensor_X_Start;
 	int Sensor_Y_Start;
 	float DigitalGain;
-};
+} ls55g1_config_t;
+
+typedef struct {
+	uint8_t major; /* API changes not compatibles */
+	uint8_t minor; /* Campatibles changes */
+	uint8_t patch; /* Bug fixes */
+} ls55g1_driver_version_t;
 
 // Register from UM3224
 #define VD55G1_SYSTEM_FSM 	0x001C
@@ -72,6 +83,7 @@ struct Config_t {
 #define EXPOSURE_MANUAL_ANALOG_GAIN 0x0501
 #define EXPOSURE_MANUAL_COARSE_EXPOSURE_LINES_A 0x0502
 
+void ls55g1_get_driver_version(ls55g1_driver_version_t *p_driver_version);
 int ls55g1_init(void);
 int ls55g1_set_digital_gain(float DigitalGain);
 int ls55g1_set_framelength(int FrameLength);
