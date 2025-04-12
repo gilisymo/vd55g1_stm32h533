@@ -2,11 +2,11 @@
 
 The demo has been presented at the Embedded World 2025
 
-<img src="https://raw.githubusercontent.com/gilisymo/vd55g1_stm32h533/main/images/Demo_Embedded_World_2025.png" alt="LS-CAM-I3C" width="400">
+![Demo_Embedded_World_2025](./Images/Demo_Embedded_World_2025.png)<br>
 
-## LS-CAM-I3C Pinout Connection
+## GILISYMO LS-CAM-I3C
 
-<img src="https://raw.githubusercontent.com/gilisymo/vd55g1_stm32h533/main/images/LS-CAM-I3C1.png" alt="LS-CAM-I3C" width="250">
+![LS-CAM-I3C1](./Images/LS-CAM-I3C1.png)<br>
 
 [Find the bord in Gilisymo site](https://www.gilisymo.com/sensors/67-ls-cam-i3c.html)
 
@@ -65,3 +65,9 @@ The display used is the SPI 2.8" TFT 240x320 with an ILI9341 controller. In the 
 | 35 (PB14) | 9 (SDO/MISO)|
 
 You can find the equivalents on Arduino connectors.
+
+## Gilisymo information
+
+Gilisymo website: https://www.gilisymo.com/
+Gilisymo contact: contact@gilisymo.com
+
