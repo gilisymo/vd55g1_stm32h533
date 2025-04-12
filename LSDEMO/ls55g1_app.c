@@ -53,10 +53,12 @@ void ls55g1_setup(void)
 	ILI9341_Set_Rotation(SCREEN_HORIZONTAL_2);
 	ILI9341_Draw_Text("GILISYMO", 20, 20, WHITE, 2, BLUE);
 	HAL_Delay(1000);
-	ILI9341_Draw_Text("LS-CAM-I3C", 20, 50, WHITE, 2, BLUE);
+	ILI9341_Draw_Text("LS-CAM-I3C DEMO", 20, 50, WHITE, 2, BLUE);
 	HAL_Delay(1000);
-	ILI9341_Draw_Text("V1.0", 20, 80, WHITE, 2, BLUE);
-	HAL_Delay(1000);
+	char version[10];
+	snprintf(version, sizeof(version), "v%d.%d.%d", DEMO_VERSION_MAJOR, DEMO_VERSION_MINOR, DEMO_VERSION_PATCH);
+	ILI9341_Draw_Text(version, 20, 80, WHITE, 2, BLUE);
+	HAL_Delay(2000);
 	ILI9341_Fill_Screen(BLUE);
 	ILI9341_Set_Rotation(SCREEN_VERTICAL_1);
 

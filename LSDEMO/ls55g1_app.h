@@ -27,7 +27,7 @@
 #include "ls55g1_driver.h"
 
 #define DEMO_VERSION_MAJOR 1
-#define DEMO_VERSION_MINOR 0
+#define DEMO_VERSION_MINOR 1
 #define DEMO_VERSION_PATCH 0
 
 #ifndef UART_COMM_DEBUG
